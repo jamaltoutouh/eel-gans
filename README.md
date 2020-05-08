@@ -1,14 +1,11 @@
-# eel-gans
-
-# Mustangs
-
-MUtation SpaTial gANs training method (MUSTANGs)
+# Creating GAN Ensembles by using Evolutionary Computing
 
 ## Summary
 
-Mustangs is an generative adversarial networks (GANs) training framework that combines E-GANs [1], which apply the principles of evolutionary computing to train GANs by generating diversity in terms of (gradient-based) mutations applied to the generator, and Lipizzaner [2], which uses a spatially distributed coevolutioary algorithms to optimize two populations of networks (generators and discriminators). Mustan mitigates problems such as instability and mode collapse during the training process. 
+Using ensmbles to improve generative adversarial networks (GANs) performance in generating accurate and diverese samples has shown a great success. Finding the best way to define these ensembles is not an easy task. 
+This code applies two evolutionary algorithms (EAs) and two greedies to create ensembles to maximize the diversity of the generated samples(i.e., improve TVD). 
+These method have been presented in the paper **Re-purposing Heterogeneous Generative Ensembles with Evolutionary Computation**, which has been accepted/published in **GECCO'20**. The information about the paper can be seen below.
 
-This method has been presented in the paper **Spatial Evolutionary Generative Adversarial Networks**, which has been accepted/published in **GECCO'19**. The information about the paper can be seen below.
 
 ## How-To
 
@@ -22,7 +19,7 @@ In order to configure our system to apply the probabilistic Mustangs loss functi
          loss: smuganloss 
    ```
 
-## GECCO'19 Paper Information
+## GECCO'20 Paper Information
 
 #### Title: 
 **Re-purposing Heterogeneous Generative Ensembles with Evolutionary Computation**
