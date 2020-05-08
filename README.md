@@ -3,21 +3,17 @@
 ## Summary
 
 Using ensmbles to improve generative adversarial networks (GANs) performance in generating accurate and diverese samples has shown a great success. Finding the best way to define these ensembles is not an easy task. 
-This code applies two evolutionary algorithms (EAs) and two greedies to create ensembles to maximize the diversity of the generated samples(i.e., improve TVD). 
+This code applies two evolutionary algorithms (EAs) and two greedies to create ensembles of previously trained generators to maximize the diversity of the generated samples(i.e., improve TVD). 
+
 These method have been presented in the paper **Re-purposing Heterogeneous Generative Ensembles with Evolutionary Computation**, which has been accepted/published in **GECCO'20**. The information about the paper can be seen below.
 
 
 ## How-To
 
-As the method is principally developed over Lipizzaner, the installation instructions are the same than Lipizzaner and are included in the `./mustang/` folder. 
+As these method are developed over **Lipizzaner**, it requires the installation of this software (see https://github.com/ALFA-group/lipizzaner-gan). 
+In order to use our methods, the folder `enesmble_optimization` should be copied inside the `src/` folder of Lipizzaner. 
 
-In order to configure our system to apply the probabilistic Mustangs loss functions, the user has to set `smuganloss` as the loss function in the configuration files (`.yml`). Therefore the `network` section of the configuration file should include the following information:
 
-   ```
-      network:
-         name: convolutional
-         loss: smuganloss 
-   ```
 
 ## GECCO'20 Paper Information
 
