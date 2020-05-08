@@ -5,14 +5,22 @@
 Using ensmbles to improve generative adversarial networks (GANs) performance in generating accurate and diverese samples has shown a great success. Finding the best way to define these ensembles is not an easy task. 
 This code applies two evolutionary algorithms (EAs) and two greedies to create ensembles of previously trained generators to maximize the diversity of the generated samples(i.e., improve TVD). 
 
-These method have been presented in the paper **Re-purposing Heterogeneous Generative Ensembles with Evolutionary Computation**, which has been accepted/published in **GECCO'20**. The information about the paper can be seen below.
+These method have been presented in the paper [**Re-purposing Heterogeneous Generative Ensembles with Evolutionary Computation**](https://arxiv.org/abs/2003.13532), which has been accepted/published in **GECCO'20**. The information about the paper can be seen below.
 
 
 ## How-To
 
 As these method are developed over **Lipizzaner**, it requires the installation of this software (see https://github.com/ALFA-group/lipizzaner-gan). 
-In order to use our methods, the folder `enesmble_optimization` should be copied inside the `src/` folder of Lipizzaner. 
+In order to use our methods, the folder `enesmble_optimization/` should be copied inside the `src/` folder of Lipizzaner. 
 
+Source code files in `enesmble_optimization/` folder:
+- evolutionary_nonrestricted_ensemble_optimization.py: It implements the NREO-GEN method.
+- evolutionary_restricted_ensemble_optimization.py: It implements the REO-GEN method.
+- greedy_for_ensemble_generator.py: It implements both Greedy methods, iterative and random.
+
+In order to test these methods, we provide test cases that use ten generators previously trained to generate MNIST samples.
+- test_ga_ensemble_generator.py: It allows testing the EA methods (i.e., NREO-GEN and REO-GEN)
+- test_greedy_ensemble_generator.py: It allows testing the Greedy methods.
 
 
 ## GECCO'20 Paper Information
