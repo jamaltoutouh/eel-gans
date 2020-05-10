@@ -43,8 +43,8 @@ class GAEnsembleGenerator:
 
     fitness_types = ['tvd', 'fid', 'tvd-fid'] # Currently supported GAN metrics. 'tvd-fid' for future multi-objective
     class_maps = {
-        'reo-gen': ('evolutionary_restricted_ensemble_optimization', 'RestrictedEnsembleOptimization'),
-        'nreo-gen': ('evolutionary_nonrestricted_ensemble_optimization', 'NonRestrictedEnsembleOptimization')
+        'reo-gen': ('enesmble_optimization.evolutionary_restricted_ensemble_optimization', 'RestrictedEnsembleOptimization'),
+        'nreo-gen': ('enesmble_optimization.evolutionary_nonrestricted_ensemble_optimization', 'NonRestrictedEnsembleOptimization')
     }
 
     def __init__(self, dataset, min_ensemble_size, max_ensemble_size, generators_path, generators_prefix, fitness_metric,
@@ -173,7 +173,7 @@ class GAEnsembleGenerator:
         if fitness_type=='tvd':
             return tvd,
         elif fitness_type=='fid':
-            return fid
+            return fid,
         elif fitness_type == 'tvd-fid':
             return (tvd, fid),
 
@@ -243,6 +243,7 @@ class GAEnsembleGenerator:
         config_info = 'EA configuration: '
         config_info += 'Fitness function={}, '.format(self.fitness_type)
         config_info += 'Number of generations={}, '.format(self.number_of_generations)
+        config_info += '{}'.format(self.ga.show_ensemble_size_info())
         config_info += 'Fitness evaluations={}, '.format(self.number_of_fitness_evaluations)
         config_info += 'Crossover probability={}, '.format(self.CXPB)
         config_info += 'Mutation probability={}, '.format(self.MUTPB)
@@ -263,10 +264,14 @@ class GAEnsembleGenerator:
         :return stats: Fitness stats
         :return computation_time: Computation time in seconds
         """
+        self.show_evolutionary_algorithm_configuration()
+        if self.store_output_file != '': self.show_evolutionary_algorithm_configuration(self.store_output_file)
+
         init_time = time.clock()
 
         # Evaluate the entire population
         fitnesses = list(map(self.toolbox.evaluate, self.pop))
+        self.show_population_tvd_fid()
         for ind, fit in zip(self.pop, fitnesses):
             ind.fitness.values = fit
 
@@ -274,12 +279,9 @@ class GAEnsembleGenerator:
         generation = 0
         fitnesses_evaluation = 0
 
-        self.show_evolutionary_algorithm_configuration()
-        if self.store_output_file != '': self.show_evolutionary_algorithm_configuration(self.store_output_file)
-
         print('Initial population:')
-        self.show_evolution_stats(generation, fitnesses_evaluation)
         self.show_population_tvd_fid()
+        self.show_evolution_stats(generation, fitnesses_evaluation)
 
         counter = 0
         if self.number_of_fitness_evaluations > 0:
@@ -322,7 +324,7 @@ class GAEnsembleGenerator:
             fitnesses_evaluation += len(invalid_ind)
             self.pop[:] = offspring
 
-            if generation % self.show_info_iteration == 0:
+            if self.show_info_iteration != 0 and generation % self.show_info_iteration == 0:
                 self.show_population_info(generation, fitnesses_evaluation)
                 self.show_evolution_stats(generation, fitnesses_evaluation)
 
@@ -345,27 +347,3 @@ class GAEnsembleGenerator:
             self.show_population_tvd_fid(self.store_output_file)
         return self.pop, self.get_fitness_stats(ind.fitness.values), computation_time
 
-
-#
-#
-#
-# print("RUN....")
-# ensemble_size = 5
-# generators_path = './ensemble_optimization/mnist-generators/'
-# generators_prefix = 'mnist-generator'
-# fitness_metric = 'tvd'
-# evolutionary_approach = 'nreo-gen'
-# population_size = 4
-# number_of_generators = 0
-# number_of_fitness_evaluations = 4
-# mutation_probability = 0.5
-# crossover_probability = 1.9
-# dataset = 'mnist'
-# show_info_iteration = 1
-# min_ensemble_size, max_ensemble_size = 4, 7
-# ga = GAEnsembleGenerator(dataset, min_ensemble_size, max_ensemble_size, generators_path, generators_prefix, fitness_metric,
-#                              evolutionary_approach, population_size, number_of_generators, number_of_fitness_evaluations,
-#                              mutation_probability, crossover_probability, show_info_iteration)
-#
-#
-# ga.evolutionary_loop()

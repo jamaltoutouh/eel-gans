@@ -314,3 +314,6 @@ class RestrictedEnsembleOptimization:
             line += str(int(generator_index)) + '-' + str(round(weight, 2)) + ', '
         return line[:-2] + ']'
 
+    def show_ensemble_size_info(self):
+        return 'Ensemble size={}, '.format(self.ensemble_size)
+

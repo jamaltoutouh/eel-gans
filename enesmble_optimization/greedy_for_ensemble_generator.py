@@ -26,7 +26,7 @@ class GreedyEnsembleGenerator:
 
     fitness_types = ['tvd', 'fid', 'tvd-fid'] # Currently supported GAN metrics. 'tvd-fid' for future multi-objective
 
-    def __init__(self, dataset, ensemble_max_size=5, precision=10, generators_prefix='mnist-generator',
+    def __init__(self, dataset, ensemble_max_size=5, max_time_without_improvements=3, precision=10, generators_prefix='mnist-generator',
                  generators_path='./generators/', mode='iterative', output_file=''):
         self.list_of_weights = []
         self.list_of_generators = []
@@ -38,6 +38,7 @@ class GreedyEnsembleGenerator:
         self.generators_prefix = generators_prefix
         self.generators_in_path = self.get_maximum_generators_index(generators_path, generators_prefix)
         self.mode = mode
+        self.max_time_without_improvements = max_time_without_improvements
         self.configure_lipizzaner(dataset)
         self.create_generators_list()
         self.output_file = output_file
@@ -125,6 +126,7 @@ class GreedyEnsembleGenerator:
         text = 'Greedy configuration: '
         text += 'mode={}, '.format(self.mode)
         text += 'ensemble size={}, '.format(self.ensemble_max_size)
+        text += 'max iterations without improvement={}, '.format(self.max_time_without_improvements)
         text += 'precision={}, '.format(self.precision)
         text += 'output_file={} \n'.format(self.output_file)
         self.show_file_screen(text)
@@ -132,7 +134,6 @@ class GreedyEnsembleGenerator:
 
     def create_ensemble(self):
         n_samples = 50000
-        max_time_without_improvements = 3
         using_max_size = self.ensemble_max_size != 0
 
         population = Population(individuals=[], default_fitness=0)
@@ -201,7 +202,7 @@ class GreedyEnsembleGenerator:
             if using_max_size and len(sources) == self.ensemble_max_size:
                 break
             else:
-                if convergence_time > max_time_without_improvements:
+                if self.max_time_without_improvements!= 0 and convergence_time > self.max_time_without_improvements:
                     break
 
         text = 'Finishing execution....\n'

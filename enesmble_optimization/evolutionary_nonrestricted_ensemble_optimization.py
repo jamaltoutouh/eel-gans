@@ -7,6 +7,9 @@ Computation" presented during GECCO 2020 (https://doi.org/10.1145/3377930.339022
 evolutionary_nonrestricted_ensemble_optimization.py contains the code RestrictedEnsembleOptimization class, which
 implements NREO-GEN optimization problem defined to create ensembles given the minimum and maximum size.
 """
+import pathlib
+import sys
+sys.path.insert(0, str(pathlib.Path(__file__).parent.parent.absolute()))
 import numpy as np
 import glob
 
@@ -269,3 +272,6 @@ class NonRestrictedEnsembleOptimization:
         :param weight_and_generator_indices: Individual/solution that defines an ensemble.
         :return: List of weights that defines the mixture."""
         return [round(weight,1) for weight, generator_index in weight_and_generator_indices]
+
+    def show_ensemble_size_info(self):
+        return 'Min ensemble size={}, Max ensemble size={}, '.format(self.min_ensemble_size, self.max_ensemble_size)
